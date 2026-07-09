@@ -1,0 +1,196 @@
+/* ============================================================
+   AMENG DESIGN SYSTEM
+   Built on Tailwind CSS v4's CSS-first config (the @theme block
+   below generates real utility classes, e.g. --color-orange
+   becomes usable as bg-orange / text-orange / border-orange).
+   Palette source: "Guidlines - fonts and size.docx".
+   The ink-* scale extends that palette into the deep navy/black
+   tones needed for the Option 2 premium tech direction — the
+   guideline only specifies one navy, so ink-900/950 are derived
+   shades for hero/section backgrounds, kept in the same hue family.
+   ============================================================ */
+@import "tailwindcss";
+
+@theme {
+  /* ---- Brand palette (from client guidelines) ---- */
+  --color-navy: #0F2537;      /* Precision Navy — headings, structure */
+  --color-obsidian: #1A1D20;  /* Deep Obsidian — body text on light bg */
+  --color-grey: #5F6C75;      /* Laser CAD Grey — secondary text/captions */
+  --color-orange: #FF6B00;    /* SUE Safety Orange — CTAs, highlights */
+  --color-orange-dark: #D95C00; /* hover/active state for orange */
+
+  /* ---- Extended dark scale for the premium tech surfaces ---- */
+  --color-ink-950: #060D14;
+  --color-ink-900: #0A1620;
+  --color-ink-850: #0D1E2C;
+  --color-ink-800: #0F2537;   /* = navy, kept for continuity */
+  --color-ink-700: #14314A;
+  --color-ink-600: #1E4A7A;   /* steel accent */
+  --color-ink-500: #2A6096;   /* mid accent */
+
+  /* ---- On-dark text tones ---- */
+  --color-mist: #8BAEC4;      /* muted labels on dark backgrounds */
+  --color-haze: #B8CAD8;      /* body copy on dark backgrounds */
+
+  /* ---- Surfaces ---- */
+  --color-cloud: #F4F6F8;     /* light section background */
+  --color-panel: #E8EEF4;     /* light panel/card tint */
+  --color-line: #D8E1E9;      /* light hairline borders */
+
+  /* ---- Typography ---- */
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
+
+  /* ---- Radii / shadows shared across cards ---- */
+  --radius-card: 10px;
+  --shadow-card: 0 2px 16px rgba(10, 22, 32, 0.06);
+  --shadow-card-dark: 0 8px 32px rgba(0, 0, 0, 0.35);
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* The client selected Option 2 (premium/dark/technology) as the final
+   direction, and the reference mockup keeps the ENTIRE page dark, not
+   just the hero/nav/footer — so the base page theme here is dark navy,
+   with white/haze text by default. "Deep Obsidian" body text from the
+   brand guideline is still used, but only inside light surface panels
+   (e.g. the final CTA band, form fields) rather than as the page default. */
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  color: var(--color-haze);
+  background: var(--color-ink-900);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* Respect the guideline's H1–H3 desktop/mobile scale everywhere by default;
+   pages can still override with Tailwind text-* utilities where needed. */
+h1, h2, h3 {
+  font-family: var(--font-sans);
+  color: #FFFFFF;
+  font-weight: 800;
+  line-height: 1.15;
+  margin: 0;
+}
+h1 { font-size: 48px; }
+h2 { font-size: 34px; }
+h3 { font-size: 24px; }
+p { margin: 0; }
+
+@media (max-width: 640px) {
+  h1 { font-size: 32px; }
+  h2 { font-size: 24px; }
+  h3 { font-size: 19px; }
+  body { font-size: 15.5px; }
+}
+
+/* Visible, on-brand focus ring for keyboard users (accessibility) */
+a, button {
+  font-family: inherit;
+}
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--color-orange);
+  outline-offset: 2px;
+}
+
+/* Skip link for keyboard/screen-reader users */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--color-orange);
+  color: #fff;
+  padding: 10px 18px;
+  z-index: 1000;
+  font-weight: 700;
+  border-radius: 0 0 6px 0;
+}
+.skip-link:focus {
+  left: 0;
+}
+
+/* ============================================================
+   DECORATIVE TECHNICAL / GEOSPATIAL SURFACES
+   Reused across hero + technology sections instead of stock
+   photography — small, dependency-free CSS/SVG patterns that
+   read as "map / grid / point-cloud" rather than plain color.
+   ============================================================ */
+
+/* Fine cartographic grid, tinted to whatever text color is active */
+.bg-grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 34px 34px;
+}
+.bg-grid-dense {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+/* Scattered "point cloud" dots, layered radial gradients */
+.bg-points {
+  background-image:
+    radial-gradient(rgba(255, 107, 0, 0.55) 1px, transparent 1.6px),
+    radial-gradient(rgba(139, 174, 196, 0.4) 1px, transparent 1.6px);
+  background-size: 64px 64px, 38px 38px;
+  background-position: 0 0, 20px 24px;
+}
+
+/* Radial orange "scan" glow used behind hero content */
+.bg-scan-glow {
+  background-image: radial-gradient(circle at 78% 22%, rgba(255, 107, 0, 0.22), transparent 38%);
+}
+
+/* Deep navy → near-black gradient used for premium dark sections */
+.bg-ink-gradient {
+  background: linear-gradient(135deg, var(--color-ink-950) 0%, var(--color-ink-900) 55%, var(--color-ink-850) 100%);
+}
+
+/* Thin animated scan-line accent (used sparingly, respects reduced motion) */
+@keyframes scanline {
+  0% { transform: translateY(-100%); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(2200%); opacity: 0; }
+}
+.scanline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-orange), transparent);
+  animation: scanline 6s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .scanline::after { animation: none; display: none; }
+}
+
+/* Utility: numeric/technical labels (coordinates, QL codes, stats) */
+.font-data {
+  font-family: var(--font-mono);
+  letter-spacing: 0.02em;
+}
+
+/* Custom scrollbar tint on dark panels (progressive enhancement only) */
+.dark-scroll::-webkit-scrollbar { width: 8px; height: 8px; }
+.dark-scroll::-webkit-scrollbar-thumb { background: var(--color-ink-600); border-radius: 8px; }
