@@ -49,10 +49,8 @@ export default function Home() {
               <span className="text-orange"> and buried below it.</span>
             </h1>
             <p className="mt-6 max-w-xl text-[16px] leading-relaxed text-haze">
-              AMEng converts GNSS, UAV LiDAR, GPR, GIS and CCTV field data into engineering-ready
-              infrastructure intelligence — reducing risk before you design, dig, core or build.
-              Geospatial, subsurface utility engineering and asset intelligence solutions across
-              North America.
+              AMEng turns GNSS, UAV LiDAR, GPR, GIS and CCTV field data into engineering-ready
+              insight that reduces risk before you design, dig, core or build.
             </p>
             <div className="mt-9 flex flex-wrap items-center gap-4">
               <CTAButton to="/contact" variant="primary" size="lg">Request a Consultation</CTAButton>
@@ -100,14 +98,14 @@ export default function Home() {
           <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
             <SectionHeading
               eyebrow="Technology stack"
-              title="Connected tools for field capture, data processing and engineering delivery."
-              description="From GNSS and UAV LiDAR to GPR, GIS, BIM and cloud-based delivery — AMEng runs one connected technology stack from the field to the design office."
+              title="Connected tools from field capture to engineering delivery."
+              description="From GNSS and UAV LiDAR to GPR, GIS, BIM and cloud delivery, AMEng connects field data with the design office."
             />
             <CTAButton to="/technology" variant="secondary" className="shrink-0">See full stack</CTAButton>
           </div>
           <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {technologies.map((tech) => (
-              <TechnologyCard key={tech.name} tech={tech} />
+            {technologies.map((tech, i) => (
+              <TechnologyCard key={tech.name} tech={tech} index={i} />
             ))}
           </div>
         </div>
@@ -120,7 +118,7 @@ export default function Home() {
             <SectionHeading
               eyebrow="Services at a glance"
               title="Above-ground and below-ground technical services in one integrated partner."
-              description="Surveying, geomatics, UAV services, subsurface utility engineering, utility mapping, QL-A daylighting, CCTV sewer inspection, and concrete scanning, imaging and coring."
+              description="Surveying, geomatics, UAV, SUE, utility mapping, QL-A daylighting, CCTV inspection and concrete scanning."
             />
             <CTAButton to="/services" variant="secondary" className="shrink-0">View all services</CTAButton>
           </div>
@@ -185,6 +183,13 @@ export default function Home() {
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-14 lg:grid-cols-2 lg:items-center">
             <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-white/10 bg-ink-950">
+              <img
+                src="/images/risk-reduction-gis-map.png"
+                alt="Digital utility map with underground utility layers"
+                loading="lazy"
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+              <div className="bg-ink-gradient absolute inset-0 opacity-80" aria-hidden="true" />
               <div className="bg-points absolute inset-0" aria-hidden="true" />
               <div className="bg-grid-dense absolute inset-0 opacity-40" aria-hidden="true" />
               <div className="bg-scan-glow absolute inset-0" aria-hidden="true" />

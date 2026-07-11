@@ -3,6 +3,7 @@ import { Link, NavLink, useLocation } from "react-router-dom";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { primaryNav, primaryCta } from "../../data/navigation";
 import CTAButton from "../ui/CTAButton";
+import Icon from "../../lib/icons";
 
 // ============================================================
 // Header
@@ -11,9 +12,107 @@ import CTAButton from "../ui/CTAButton";
 // Behavior:
 //   - Transparent over the hero, solidifies to navy on scroll so
 //     text stays legible over any hero image/gradient.
-//   - Desktop: hover/click dropdowns for Services & Sectors.
-//   - Mobile: full-screen slide-down panel with accordion submenus.
+//   - Desktop: hover/focus mega menus for Services, Sectors &
+//     Technology (item.megaMenu); simple links otherwise.
+//   - Mobile: full-screen slide-down panel with accordion submenus
+//     (item.children) — kept deliberately simple, no mega-menu layout.
 // ============================================================
+
+// Shared right-hand CTA panel used by every desktop mega menu.
+function MegaMenuCta({ cta }) {
+  return (
+    <div className="relative flex h-full flex-col justify-between overflow-hidden border-l border-white/10 bg-ink-950/70 p-5">
+      <div className="bg-points pointer-events-none absolute inset-0 opacity-30" aria-hidden="true" />
+      <div className="relative">
+        <strong className="block text-[13.5px] font-bold leading-snug text-white">{cta.title}</strong>
+        <p className="mt-2 text-[12px] leading-relaxed text-haze">{cta.text}</p>
+      </div>
+      <CTAButton to={cta.path} variant="ghost" className="relative mt-4 text-[13px]">
+        {cta.buttonLabel}
+      </CTAButton>
+    </div>
+  );
+}
+
+function ServicesMegaMenu({ megaMenu }) {
+  return (
+    <div className="grid grid-cols-[repeat(3,1fr)_240px]">
+      {megaMenu.columns.map((column) => (
+        <div key={column.title} className="border-r border-white/5 p-5">
+          <div className="font-data mb-3 text-[11px] font-bold uppercase tracking-[0.14em] text-orange">
+            {column.title}
+          </div>
+          <ul className="flex flex-col gap-1" role="none">
+            {column.items.map((item) => (
+              <li key={item.path} role="none">
+                <Link
+                  to={item.path}
+                  role="menuitem"
+                  className="group flex flex-col gap-1 rounded-md px-2.5 py-2.5 transition-colors hover:bg-white/5"
+                >
+                  <span className="flex items-center gap-2 text-[13px] font-semibold text-white group-hover:text-orange">
+                    <Icon name={item.icon} className="h-4 w-4 shrink-0 text-orange/70" strokeWidth={1.75} />
+                    {item.label}
+                  </span>
+                  <span className="pl-6 text-[11.5px] leading-snug text-haze">{item.blurb}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+      <MegaMenuCta cta={megaMenu.cta} />
+    </div>
+  );
+}
+
+function ChipGridMegaMenu({ items, cta }) {
+  return (
+    <div className="grid grid-cols-[1fr_240px]">
+      <div className="grid grid-cols-2 gap-2 p-5" role="none">
+        {items.map((item) => (
+          <Link
+            key={item.label}
+            to={item.path}
+            role="menuitem"
+            className="flex items-center gap-2.5 rounded-md border border-white/10 bg-white/[0.02] px-3 py-2.5 text-[13px] font-semibold text-white transition-colors hover:border-orange/40 hover:bg-white/5 hover:text-orange"
+          >
+            <Icon name={item.icon} className="h-4 w-4 shrink-0 text-orange" strokeWidth={1.75} />
+            {item.label}
+          </Link>
+        ))}
+      </div>
+      <MegaMenuCta cta={cta} />
+    </div>
+  );
+}
+
+// Desktop mega menu panel: dark glass surface with GIS-style decorative
+// texture behind the content, switched by type onto the layouts above.
+function MegaMenuPanel({ item, open }) {
+  const { megaMenu } = item;
+  const width = megaMenu.type === "services" ? 800 : 620;
+
+  return (
+    <div
+      className={`absolute left-1/2 top-full max-w-[92vw] -translate-x-1/2 overflow-hidden rounded-xl border border-white/10 bg-ink-950/95 shadow-[var(--shadow-card-dark)] backdrop-blur-md transition-all duration-150 ${
+        open ? "visible translate-y-0 opacity-100" : "invisible -translate-y-1 opacity-0"
+      }`}
+      style={{ width }}
+      role="menu"
+      aria-label={`${item.label} menu`}
+    >
+      <div className="bg-grid-dense pointer-events-none absolute inset-0 opacity-20" aria-hidden="true" />
+      <div className="bg-scan-glow pointer-events-none absolute inset-0" aria-hidden="true" />
+      <div className="relative">
+        {megaMenu.type === "services" && <ServicesMegaMenu megaMenu={megaMenu} />}
+        {megaMenu.type === "sectors" && <ChipGridMegaMenu items={megaMenu.chips} cta={megaMenu.cta} />}
+        {megaMenu.type === "technology" && <ChipGridMegaMenu items={megaMenu.grid} cta={megaMenu.cta} />}
+      </div>
+    </div>
+  );
+}
+
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -59,48 +158,47 @@ export default function Header() {
 
         {/* Desktop nav */}
         <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary">
-          {primaryNav.map((item) => (
-            <div
-              key={item.label}
-              className="relative"
-              onMouseEnter={() => item.children && setOpenDesktopMenu(item.label)}
-              onMouseLeave={() => item.children && setOpenDesktopMenu(null)}
-            >
-              <NavLink
-                to={item.path}
-                className={({ isActive }) =>
-                  `flex items-center gap-1 rounded-md px-4 py-2 text-[13.5px] font-semibold transition-colors ${
-                    isActive ? "text-orange" : "text-white/85 hover:text-orange"
-                  }`
-                }
+          {primaryNav.map((item) => {
+            const isOpen = openDesktopMenu === item.label;
+            return (
+              <div
+                key={item.label}
+                className="relative"
+                onMouseEnter={() => item.megaMenu && setOpenDesktopMenu(item.label)}
+                onMouseLeave={() => item.megaMenu && setOpenDesktopMenu(null)}
+                onFocus={() => item.megaMenu && setOpenDesktopMenu(item.label)}
+                onBlur={(e) => {
+                  if (item.megaMenu && !e.currentTarget.contains(e.relatedTarget)) {
+                    setOpenDesktopMenu(null);
+                  }
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Escape" && item.megaMenu) setOpenDesktopMenu(null);
+                }}
               >
-                {item.label}
-                {item.children && <ChevronDown className="h-3.5 w-3.5" strokeWidth={2.5} />}
-              </NavLink>
-
-              {item.children && (
-                <div
-                  className={`absolute left-1/2 top-full grid w-[560px] -translate-x-1/2 grid-cols-2 gap-1 rounded-lg border border-white/10 bg-ink-900 p-3 shadow-[var(--shadow-card-dark)] transition-all duration-150 ${
-                    openDesktopMenu === item.label
-                      ? "visible translate-y-0 opacity-100"
-                      : "invisible -translate-y-1 opacity-0"
-                  }`}
-                  role="menu"
+                <NavLink
+                  to={item.path}
+                  aria-haspopup={item.megaMenu ? "true" : undefined}
+                  aria-expanded={item.megaMenu ? isOpen : undefined}
+                  className={({ isActive }) =>
+                    `flex items-center gap-1 rounded-md px-4 py-2 text-[13.5px] font-semibold transition-colors ${
+                      isActive ? "text-orange" : "text-white/85 hover:text-orange"
+                    }`
+                  }
                 >
-                  {item.children.map((child) => (
-                    <Link
-                      key={child.path}
-                      to={child.path}
-                      role="menuitem"
-                      className="rounded-md px-3 py-2.5 text-[13px] font-medium text-haze transition-colors hover:bg-white/5 hover:text-orange"
-                    >
-                      {child.label}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
+                  {item.label}
+                  {item.megaMenu && (
+                    <ChevronDown
+                      className={`h-3.5 w-3.5 transition-transform duration-150 ${isOpen ? "rotate-180" : ""}`}
+                      strokeWidth={2.5}
+                    />
+                  )}
+                </NavLink>
+
+                {item.megaMenu && <MegaMenuPanel item={item} open={isOpen} />}
+              </div>
+            );
+          })}
         </nav>
 
         <div className="hidden lg:block">

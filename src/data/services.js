@@ -16,8 +16,8 @@ export const services = [
     order: 1,
     icon: "Compass",
     name: "Surveying Services",
-    summary:
-      "Topographic, control network, construction layout and as-built surveys that give every project a precise, verifiable baseline.",
+    image: "/images/roadway-layout-marking.png",
+    summary: "Topographic, control network, layout and as-built surveys.",
     heroStatement:
       "Field-verified survey data that engineering, design and construction teams can build on with confidence.",
     scope: [
@@ -46,8 +46,8 @@ export const services = [
     order: 2,
     icon: "Layers",
     name: "Geomatics & GIS",
-    summary:
-      "GNSS/RTK positioning, GIS development and laser scanning that turn field data into intelligent, connected digital environments.",
+    image: "/images/geomatics-site-review.jpg",
+    summary: "GNSS/RTK positioning, GIS development and laser scanning.",
     heroStatement:
       "Spatial systems and reality-capture data that link field conditions to design, GIS and asset management platforms.",
     scope: [
@@ -68,8 +68,8 @@ export const services = [
     order: 3,
     icon: "Plane",
     name: "UAV Surveying",
-    summary:
-      "Aerial photogrammetry, orthomosaic production and UAV LiDAR that capture large or hard-to-access sites quickly and safely.",
+    image: "/images/uav-site-overview.jpg",
+    summary: "Aerial photogrammetry, orthomosaics and UAV LiDAR capture.",
     heroStatement:
       "Remote aerial capture that reduces site exposure while delivering survey-grade mapping and inspection data.",
     scope: [
@@ -88,8 +88,8 @@ export const services = [
     order: 4,
     icon: "Radar",
     name: "Subsurface Utility Engineering",
-    summary:
-      "ASCE 38-22 and CSA S250-aligned QL-D through QL-A investigations that locate, identify and map buried utilities before they become project risk.",
+    image: "/images/gpr-scan-readout.png",
+    summary: "ASCE 38-22 / CSA S250-aligned QL-D through QL-A investigations.",
     heroStatement:
       "A structured, standards-based approach to underground risk — from desktop records to positive physical verification.",
     scope: [
@@ -107,8 +107,8 @@ export const services = [
     order: 5,
     icon: "ScanLine",
     name: "Utility Mapping & GPR",
-    summary:
-      "Ground Penetrating Radar and geophysical detection converted into CAD, GIS and BIM-ready digital utility maps.",
+    image: "/images/utility-mapping-cad.png",
+    summary: "GPR and geophysical detection mapped into CAD, GIS and BIM.",
     heroStatement:
       "We bridge field geophysics and the design office — turning subsurface signals into precise, permanent spatial records.",
     scope: [
@@ -131,8 +131,8 @@ export const services = [
     order: 6,
     icon: "ShieldCheck",
     name: "QL-A Daylighting",
-    summary:
-      "Non-destructive hydro and air vacuum excavation that physically exposes buried utilities for 100% positive verification.",
+    image: "/images/concrete-drilling-coring.png",
+    summary: "Non-destructive vacuum excavation for positive utility verification.",
     heroStatement:
       "The highest level of subsurface certainty — utilities exposed, measured and recorded in true three-dimensional space.",
     scope: [
@@ -151,8 +151,8 @@ export const services = [
     order: 7,
     icon: "Video",
     name: "CCTV Sewer Inspection",
-    summary:
-      "NASSCO PACP, MACP and LACP-aligned pipeline, manhole and lateral inspection for condition assessment and asset planning.",
+    image: "/images/sewer-manhole-inspection.png",
+    summary: "NASSCO PACP/MACP/LACP-aligned pipeline and manhole inspection.",
     heroStatement:
       "Robotic inspection and standardized condition coding that turns pipe network data into capital-planning intelligence.",
     scope: [
@@ -173,8 +173,8 @@ export const services = [
     order: 8,
     icon: "ScanSearch",
     name: "Concrete Scanning, Imaging & Coring",
-    summary:
-      "GPR concrete scanning, rebar and conduit locating, thickness assessment and diamond coring for safe, precise cutting.",
+    image: "/images/concrete-coring.png",
+    summary: "GPR concrete scanning, rebar locating and diamond coring.",
     heroStatement:
       "Environmentally safe GPR imaging that protects structural integrity before a single cut, core or drill is made.",
     scope: [

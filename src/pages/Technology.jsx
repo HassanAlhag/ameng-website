@@ -33,8 +33,8 @@ export default function Technology() {
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <SectionHeading eyebrow="Full technology stack" title="Connected tools for field capture, data processing and engineering delivery." />
           <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {technologies.map((tech) => (
-              <TechnologyCard key={tech.name} tech={tech} />
+            {technologies.map((tech, i) => (
+              <TechnologyCard key={tech.name} tech={tech} index={i} />
             ))}
           </div>
         </div>

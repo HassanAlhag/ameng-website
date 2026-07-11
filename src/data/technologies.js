@@ -9,50 +9,52 @@ export const technologies = [
   {
     icon: "Satellite",
     name: "GNSS / RTK Surveying",
-    summary:
-      "Sub-centimetre positioning from multi-constellation receivers and real-time correction networks.",
+    image: "/images/technology/gnss-rtk-surveying.jpg",
+    summary: "Sub-centimetre positioning from multi-constellation receivers.",
   },
   {
     icon: "Plane",
     name: "UAV & LiDAR",
+    image: "/images/technology/uav-lidar-capture.jpg",
     summary:
-      "Fixed-wing and multi-rotor platforms generating dense point clouds and aerial photogrammetry.",
+      "Aerial platforms capturing dense point clouds and photogrammetry.",
   },
   {
     icon: "Radar",
     name: "Ground-Penetrating Radar",
+    image: "/images/technology/ground-penetrating-radar.png",
     summary:
-      "Multi-frequency GPR arrays with 3D data processing for utility, void and rebar detection.",
+      "Multi-frequency GPR arrays for utility, void and rebar detection.",
   },
   {
     icon: "Layers",
     name: "GIS & Spatial Analysis",
-    summary:
-      "Esri ArcGIS and QGIS workflows, utility GIS integration and web-based GIS deliverables.",
+    image: "/images/technology/gis-spatial-analysis.png",
+    summary: "ArcGIS and QGIS workflows with web-based GIS deliverables.",
   },
   {
     icon: "Box",
     name: "BIM & Digital Twins",
-    summary:
-      "IFC-compatible deliverables, clash detection and infrastructure digital twin development.",
+    image: "/images/technology/bim-digital-twins.jpg",
+    summary: "IFC-compatible models, clash detection and digital twins.",
   },
   {
     icon: "Video",
     name: "CCTV Robotics",
-    summary:
-      "Mainline, lateral and manhole robotic inspection systems for pipe network condition data.",
+    image: "/images/technology/cctv-robotics.png",
+    summary: "Robotic crawlers for mainline, lateral and manhole inspection.",
   },
   {
     icon: "CloudCog",
     name: "Cloud-Based Data Delivery",
-    summary:
-      "Secure project portals with real-time field data sync and CAD/GIS download packages.",
+    image: "/images/technology/cloud-based-data-delivery.jpeg",
+    summary: "Secure portals with real-time field data sync.",
   },
   {
     icon: "Scan",
     name: "Point Cloud Processing",
-    summary:
-      "Reality-capture processing for scan-to-BIM and scan-to-CAD deliverables from dense spatial datasets.",
+    image: "/images/technology/point-cloud-processing.png",
+    summary: "Reality-capture processing for scan-to-BIM and scan-to-CAD.",
   },
 ];
 
