@@ -1,42 +1,106 @@
 import { useState } from "react";
-import { Mail, MapPin, Clock, Upload, CheckCircle2 } from "lucide-react";
+import { Mail, MapPin, Clock, Upload, CheckCircle2, X, FileText, AlertCircle } from "lucide-react";
 import PageHero from "../components/ui/PageHero";
 import CTAButton from "../components/ui/CTAButton";
 import { services } from "../data/services";
+import { screenFiles, submitContactRequest, MAX_FILE_SIZE_MB, MAX_FILES } from "../lib/contactSubmission";
 
 const inputClass =
   "w-full rounded-md border border-white/15 bg-white/[0.04] px-4 py-3 text-[14.5px] text-white placeholder:text-mist/70 outline-none transition-colors focus:border-orange";
+const inputErrorClass = "border-red-500/60 focus:border-red-500";
 const labelClass = "mb-1.5 block text-[12.5px] font-semibold uppercase tracking-wide text-mist";
+const errorTextClass = "mt-1.5 text-[12px] text-red-400";
+
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function validateFields(fields) {
+  const errors = {};
+  if (!fields.fullName) errors.fullName = "Full name is required.";
+  if (!fields.email) {
+    errors.email = "Email is required.";
+  } else if (!EMAIL_PATTERN.test(fields.email)) {
+    errors.email = "Enter a valid email address.";
+  }
+  if (!fields.service) errors.service = "Select the service you need.";
+  if (!fields.subject) errors.subject = "Subject is required.";
+  if (!fields.message) errors.message = "Tell us a bit about the project.";
+  return errors;
+}
+
+function formatFileSize(bytes) {
+  if (bytes < 1024 * 1024) return `${Math.max(1, Math.round(bytes / 1024))}KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)}MB`;
+}
 
 // ============================================================
-// CONTACT / REQUEST CONSULTATION PAGE
-// Lead form matching the sitemap spec: name, company, email, phone,
-// service dropdown (from services.js), project location, message,
-// optional document upload.
+// CONTACT US / REQUEST CONSULTATION PAGE
+// Lead form: full name, company, email, phone, project location,
+// service (from services.js — stays in sync automatically), subject,
+// project description and optional multi-file document upload.
 //
-// NOTE for whoever wires this up next: this form currently only
-// manages state client-side and shows a confirmation on submit —
-// there is no backend yet. Swap handleSubmit's TODO for a real POST
-// to your form endpoint / email service (e.g. Formspree, a serverless
-// function, or your CRM's API) when one is available.
+// Submission goes through src/lib/contactSubmission.js — this
+// component never talks to a network endpoint directly. That module
+// is the seam a real backend gets wired into later; see its header
+// comment for how. Today (no backend configured) it resolves locally
+// so the full flow, including validation and the confirmation state,
+// can be exercised end-to-end.
 // ============================================================
 export default function Contact() {
   const [submitted, setSubmitted] = useState(false);
-  const [fileName, setFileName] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState(null);
+  const [fieldErrors, setFieldErrors] = useState({});
+  const [files, setFiles] = useState([]);
+  const [fileErrors, setFileErrors] = useState([]);
 
-  function handleSubmit(e) {
+  function handleFilesSelected(e) {
+    const { accepted, rejected } = screenFiles(e.target.files, files);
+    if (accepted.length) setFiles((prev) => [...prev, ...accepted]);
+    setFileErrors(rejected);
+    e.target.value = ""; // reset so selecting the same file again still fires onChange
+  }
+
+  function removeFile(index) {
+    setFiles((prev) => prev.filter((_, i) => i !== index));
+  }
+
+  async function handleSubmit(e) {
     e.preventDefault();
-    // TODO: replace with a real submission (API route / form service).
-    setSubmitted(true);
+    const data = new FormData(e.currentTarget);
+    const fields = {
+      fullName: (data.get("fullName") || "").toString().trim(),
+      company: (data.get("company") || "").toString().trim(),
+      email: (data.get("email") || "").toString().trim(),
+      phone: (data.get("phone") || "").toString().trim(),
+      location: (data.get("location") || "").toString().trim(),
+      service: (data.get("service") || "").toString(),
+      subject: (data.get("subject") || "").toString().trim(),
+      message: (data.get("message") || "").toString().trim(),
+    };
+
+    const errors = validateFields(fields);
+    setFieldErrors(errors);
+    if (Object.keys(errors).length > 0) return;
+
+    setSubmitting(true);
+    setSubmitError(null);
+    try {
+      await submitContactRequest(fields, files);
+      setSubmitted(true);
+    } catch (err) {
+      setSubmitError(err?.message || "Something went wrong sending your request. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
     <>
       <PageHero
-        eyebrow="Request Consultation"
+        eyebrow="Contact Us"
         title="Need infrastructure data before mobilization?"
         description="Submit drawings, site plans or project requirements and AMEng will identify the right survey, SUE, GPR or scanning workflow."
-        breadcrumb={[{ label: "Request Consultation" }]}
+        breadcrumb={[{ label: "Contact Us" }]}
       />
 
       <section className="border-t border-white/5 bg-ink-900 py-20 sm:py-24">
@@ -52,70 +116,166 @@ export default function Contact() {
                 </p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+              <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-6">
                 <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                   <div>
-                    <label className={labelClass} htmlFor="firstName">First Name</label>
-                    <input className={inputClass} id="firstName" name="firstName" type="text" required />
+                    <label className={labelClass} htmlFor="fullName">Full Name</label>
+                    <input
+                      className={`${inputClass} ${fieldErrors.fullName ? inputErrorClass : ""}`}
+                      id="fullName"
+                      name="fullName"
+                      type="text"
+                      autoComplete="name"
+                      aria-invalid={fieldErrors.fullName ? "true" : "false"}
+                      aria-describedby={fieldErrors.fullName ? "fullName-error" : undefined}
+                    />
+                    {fieldErrors.fullName && <p id="fullName-error" className={errorTextClass}>{fieldErrors.fullName}</p>}
                   </div>
                   <div>
-                    <label className={labelClass} htmlFor="lastName">Last Name</label>
-                    <input className={inputClass} id="lastName" name="lastName" type="text" required />
-                  </div>
-                  <div>
-                    <label className={labelClass} htmlFor="company">Company</label>
-                    <input className={inputClass} id="company" name="company" type="text" />
+                    <label className={labelClass} htmlFor="company">Company Name</label>
+                    <input className={inputClass} id="company" name="company" type="text" autoComplete="organization" />
                   </div>
                   <div>
                     <label className={labelClass} htmlFor="email">Email</label>
-                    <input className={inputClass} id="email" name="email" type="email" required />
+                    <input
+                      className={`${inputClass} ${fieldErrors.email ? inputErrorClass : ""}`}
+                      id="email"
+                      name="email"
+                      type="email"
+                      autoComplete="email"
+                      aria-invalid={fieldErrors.email ? "true" : "false"}
+                      aria-describedby={fieldErrors.email ? "email-error" : undefined}
+                    />
+                    {fieldErrors.email && <p id="email-error" className={errorTextClass}>{fieldErrors.email}</p>}
                   </div>
                   <div>
-                    <label className={labelClass} htmlFor="phone">Phone</label>
-                    <input className={inputClass} id="phone" name="phone" type="tel" />
+                    <label className={labelClass} htmlFor="phone">Phone Number</label>
+                    <input className={inputClass} id="phone" name="phone" type="tel" autoComplete="tel" />
                   </div>
                   <div>
                     <label className={labelClass} htmlFor="location">Project Location</label>
                     <input className={inputClass} id="location" name="location" type="text" placeholder="City, Province/State" />
                   </div>
+                  <div>
+                    <label className={labelClass} htmlFor="service">Service Required</label>
+                    <select
+                      className={`${inputClass} ${fieldErrors.service ? inputErrorClass : ""}`}
+                      id="service"
+                      name="service"
+                      defaultValue=""
+                      aria-invalid={fieldErrors.service ? "true" : "false"}
+                      aria-describedby={fieldErrors.service ? "service-error" : undefined}
+                    >
+                      <option value="" disabled>Select a service</option>
+                      {services.map((s) => (
+                        <option key={s.slug} value={s.slug}>{s.name}</option>
+                      ))}
+                      <option value="not-sure">Not sure / need guidance</option>
+                    </select>
+                    {fieldErrors.service && <p id="service-error" className={errorTextClass}>{fieldErrors.service}</p>}
+                  </div>
                 </div>
 
                 <div>
-                  <label className={labelClass} htmlFor="service">Service Needed</label>
-                  <select className={inputClass} id="service" name="service" defaultValue="">
-                    <option value="" disabled>Select a service</option>
-                    {services.map((s) => (
-                      <option key={s.slug} value={s.slug}>{s.name}</option>
-                    ))}
-                    <option value="not-sure">Not sure / need guidance</option>
-                  </select>
+                  <label className={labelClass} htmlFor="subject">Subject</label>
+                  <input
+                    className={`${inputClass} ${fieldErrors.subject ? inputErrorClass : ""}`}
+                    id="subject"
+                    name="subject"
+                    type="text"
+                    placeholder="e.g. Topographic survey — 12-acre commercial site"
+                    aria-invalid={fieldErrors.subject ? "true" : "false"}
+                    aria-describedby={fieldErrors.subject ? "subject-error" : undefined}
+                  />
+                  {fieldErrors.subject && <p id="subject-error" className={errorTextClass}>{fieldErrors.subject}</p>}
                 </div>
 
                 <div>
-                  <label className={labelClass} htmlFor="message">Project Details</label>
-                  <textarea className={inputClass} id="message" name="message" rows={5} placeholder="Tell us about your project, timeline and any known constraints." />
+                  <label className={labelClass} htmlFor="message">Project Description / Requirements</label>
+                  <textarea
+                    className={`${inputClass} ${fieldErrors.message ? inputErrorClass : ""}`}
+                    id="message"
+                    name="message"
+                    rows={5}
+                    placeholder="Tell us about your project, timeline and any known constraints."
+                    aria-invalid={fieldErrors.message ? "true" : "false"}
+                    aria-describedby={fieldErrors.message ? "message-error" : undefined}
+                  />
+                  {fieldErrors.message && <p id="message-error" className={errorTextClass}>{fieldErrors.message}</p>}
                 </div>
 
                 <div>
-                  <label className={labelClass} htmlFor="upload">Attach Drawings / Site Plans (optional)</label>
+                  <label className={labelClass} htmlFor="upload">Supporting Documents (optional)</label>
+                  <p className="mb-3 text-[13px] leading-relaxed text-haze">
+                    Drawings, site plans and other project documents help AMEng understand your requirements
+                    before preparing a proposal or scheduling a consultation.
+                  </p>
                   <label
                     htmlFor="upload"
                     className="flex cursor-pointer items-center gap-3 rounded-md border border-dashed border-white/20 px-4 py-4 text-[13.5px] text-mist hover:border-orange hover:text-orange"
                   >
                     <Upload className="h-4 w-4 shrink-0" strokeWidth={1.75} />
-                    {fileName || "Choose a file (PDF, DWG, image)"}
+                    Choose files — PDF, Word, Excel, CAD (DWG/DXF) or images, up to {MAX_FILE_SIZE_MB}MB each
                   </label>
                   <input
                     id="upload"
                     name="upload"
                     type="file"
+                    multiple
                     className="sr-only"
-                    onChange={(e) => setFileName(e.target.files?.[0]?.name || "")}
+                    onChange={handleFilesSelected}
                   />
+
+                  {files.length > 0 && (
+                    <ul className="mt-3 flex flex-col gap-2">
+                      {files.map((file, i) => (
+                        <li
+                          key={`${file.name}-${file.size}-${i}`}
+                          className="flex items-center justify-between gap-3 rounded-md border border-white/10 bg-white/[0.03] px-3 py-2"
+                        >
+                          <span className="flex min-w-0 items-center gap-2 text-[13px] text-haze">
+                            <FileText className="h-4 w-4 shrink-0 text-orange" strokeWidth={1.75} />
+                            <span className="truncate">{file.name}</span>
+                            <span className="shrink-0 text-mist">{formatFileSize(file.size)}</span>
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => removeFile(i)}
+                            aria-label={`Remove ${file.name}`}
+                            className="shrink-0 text-mist hover:text-orange"
+                          >
+                            <X className="h-4 w-4" strokeWidth={1.75} />
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+
+                  {fileErrors.length > 0 && (
+                    <ul className="mt-3 flex flex-col gap-1.5">
+                      {fileErrors.map((msg, i) => (
+                        <li key={i} className="flex items-start gap-2 text-[12px] text-red-400">
+                          <AlertCircle className="mt-0.5 h-3.5 w-3.5 shrink-0" strokeWidth={1.75} />
+                          <span>{msg}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+
+                  <p className="mt-2 text-[12px] text-mist">
+                    Up to {MAX_FILES} files, {MAX_FILE_SIZE_MB}MB each.
+                  </p>
                 </div>
 
-                <CTAButton size="lg" icon={false} className="w-full sm:w-auto">
-                  Request a Consultation
+                {submitError && (
+                  <div className="flex items-start gap-2 rounded-md border border-red-500/30 bg-red-500/5 px-4 py-3 text-[13.5px] text-red-400">
+                    <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" strokeWidth={1.75} />
+                    <span>{submitError}</span>
+                  </div>
+                )}
+
+                <CTAButton type="submit" size="lg" icon={false} disabled={submitting} className="w-full sm:w-auto disabled:cursor-not-allowed disabled:opacity-60">
+                  {submitting ? "Sending…" : "Request a Consultation"}
                 </CTAButton>
               </form>
             )}

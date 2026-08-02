@@ -79,7 +79,7 @@ export const primaryNav = [
     path: "/technology",
     megaMenu: {
       type: "technology",
-      grid: technologies.map((t) => ({ label: t.name, path: "/technology", icon: t.icon })),
+      grid: technologies.map((t) => ({ label: t.name, path: `/technology/${t.slug}`, icon: t.icon })),
       cta: {
         title: "Connected field data.",
         text: "From field capture to engineering-ready outputs.",
@@ -90,6 +90,7 @@ export const primaryNav = [
   },
   { label: "Projects", path: "/projects" },
   { label: "Safety", path: "/safety" },
+  { label: "Contact Us", path: "/contact" },
 ];
 
 export const primaryCta = { label: "Request Consultation", path: "/contact" };

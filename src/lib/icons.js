@@ -15,7 +15,7 @@ import {
   HeartPulse, Building2, Menu, X, ChevronDown, Mail, Phone, MapPin,
   Upload, Send, Clock, Award, Users, Globe, ArrowRight, ArrowUpRight,
   CheckCircle2, Crosshair, Search, Target, TrendingUp, FileCheck2,
-  AlertTriangle, Sparkles,
+  AlertTriangle, Sparkles, Thermometer, Radio,
 } from "lucide-react";
 
 export const icons = {
@@ -25,7 +25,7 @@ export const icons = {
   HeartPulse, Building2, Menu, X, ChevronDown, Mail, Phone, MapPin,
   Upload, Send, Clock, Award, Users, Globe, ArrowRight, ArrowUpRight,
   CheckCircle2, Crosshair, Search, Target, TrendingUp, FileCheck2,
-  AlertTriangle, Sparkles,
+  AlertTriangle, Sparkles, Thermometer, Radio,
 };
 
 /** <Icon name="Compass" className="h-5 w-5" /> — renders nothing if the name is unknown.

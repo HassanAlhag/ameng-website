@@ -1,14 +1,14 @@
 import { Link } from "react-router-dom";
-import { Satellite, Radar, CloudCog, ShieldCheck, ArrowRight, CheckCircle2 } from "lucide-react";
+import { ShieldCheck, ArrowRight, CheckCircle2, Radar, CloudCog } from "lucide-react";
 
 import CTAButton from "../components/ui/CTAButton";
 import SectionHeading from "../components/ui/SectionHeading";
-import StatCard from "../components/ui/StatCard";
 import ServiceCard from "../components/cards/ServiceCard";
 import TechnologyCard from "../components/cards/TechnologyCard";
 import IndustryCard from "../components/cards/IndustryCard";
 import ProjectCard from "../components/cards/ProjectCard";
 import CTASection from "../components/sections/CTASection";
+import HomeHero from "../components/sections/HomeHero";
 
 import { services } from "../data/services";
 import { technologies, deliverables } from "../data/technologies";
@@ -31,66 +31,18 @@ import { featuredProjects } from "../data/projects";
 // Every repeated card grid below maps over a data file — nothing
 // here is a hand-duplicated card. Edit src/data/*.js to change
 // homepage content.
+//
+// heroVariant: "contained" (default, production hero) | "background"
+// (full-bleed video hero) | "backgroundEnhanced" (refined full-bleed
+// hero). Temporary review routes /home1, /home2 and /home3 render
+// this same page with each variant so they can be compared side by
+// side without duplicating sections 3–10. See App.jsx.
 // ============================================================
-export default function Home() {
+export default function Home({ heroVariant = "contained" }) {
   return (
     <>
       {/* ============ 2. HERO ============ */}
-      <section className="relative overflow-hidden bg-ink-gradient bg-grid pt-36 pb-20 sm:pt-40 sm:pb-28">
-        <div className="bg-scan-glow pointer-events-none absolute inset-0" aria-hidden="true" />
-        <div className="relative mx-auto grid max-w-7xl grid-cols-1 gap-14 px-6 lg:grid-cols-2 lg:items-center lg:px-8">
-          <div>
-            <div className="font-data mb-5 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-orange">
-              <span className="h-[2px] w-6 bg-orange" aria-hidden="true" />
-              Precision, Above and Below Ground™
-            </div>
-            <h1 className="text-white">
-              Infrastructure intelligence for what's above ground —
-              <span className="text-orange"> and buried below it.</span>
-            </h1>
-            <p className="mt-6 max-w-xl text-[16px] leading-relaxed text-haze">
-              AMEng turns GNSS, UAV LiDAR, GPR, GIS and CCTV field data into engineering-ready
-              insight that reduces risk before you design, dig, core or build.
-            </p>
-            <div className="mt-9 flex flex-wrap items-center gap-4">
-              <CTAButton to="/contact" variant="primary" size="lg">Request a Consultation</CTAButton>
-              <CTAButton to="/services" variant="secondary" size="lg" icon={false}>Explore Services</CTAButton>
-            </div>
-          </div>
-
-          {/* Tech "dashboard" panel — deliberate CSS/SVG technical visual
-              instead of stock photography, matching the Option 2 reference. */}
-          <div className="relative rounded-2xl border border-white/10 bg-white/[0.03] p-6 sm:p-8">
-            <div className="bg-points pointer-events-none absolute inset-0 rounded-2xl opacity-60" aria-hidden="true" />
-            <div className="relative flex flex-col gap-4">
-              {[
-                { icon: Satellite, title: "Point Cloud + LiDAR Capture", text: "Dense spatial datasets for existing conditions, Scan-to-BIM and digital twin development." },
-                { icon: Radar, title: "GPR / Utility Intelligence", text: "Underground detection, utility conflict analysis and ASCE 38-22 metadata tagging." },
-                { icon: CloudCog, title: "Cloud Data Delivery", text: "CAD, GIS, BIM and inspection deliverables synced through secure project workflows." },
-              ].map((p, i) => (
-                <div
-                  key={p.title}
-                  className={`relative rounded-lg border border-white/10 border-l-[3px] border-l-orange bg-ink-950/70 p-4 backdrop-blur-sm ${i === 1 ? "ml-auto w-[92%]" : "w-full"}`}
-                >
-                  <div className="flex items-center gap-2.5">
-                    <p.icon className="h-4 w-4 shrink-0 text-orange" strokeWidth={1.75} />
-                    <strong className="text-[13.5px] font-bold text-white">{p.title}</strong>
-                  </div>
-                  <span className="mt-1.5 block text-[12px] leading-relaxed text-haze">{p.text}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Quick stat row */}
-        <div className="relative mx-auto mt-16 grid max-w-7xl grid-cols-2 gap-4 px-6 sm:grid-cols-4 lg:px-8">
-          <StatCard value="30" label="Years of infrastructure & field experience" />
-          <StatCard value="QL-A" label="Positive utility verification, coast to coast" />
-          <StatCard value="8" label="Integrated geospatial & subsurface services" />
-          <StatCard value="N.A." label="Projects delivered across North America" />
-        </div>
-      </section>
+      <HomeHero variant={heroVariant} />
 
       {/* ============ 3. TECHNOLOGY / INTELLIGENCE ============ */}
       <section className="border-t border-white/5 bg-ink-900 py-20 sm:py-24">
@@ -101,12 +53,18 @@ export default function Home() {
               title="Connected tools from field capture to engineering delivery."
               description="From GNSS and UAV LiDAR to GPR, GIS, BIM and cloud delivery, AMEng connects field data with the design office."
             />
-            <CTAButton to="/technology" variant="secondary" className="shrink-0">See full stack</CTAButton>
+            <CTAButton to="/technology" variant="secondary" className="shrink-0">See Full Stack</CTAButton>
           </div>
           <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {technologies.map((tech, i) => (
-              <TechnologyCard key={tech.name} tech={tech} index={i} />
-            ))}
+            {/* Homepage shows only the 8 technologies flagged
+                featuredOnHome in src/data/technologies.js — the full
+                13-item list (including this filtered-out set) still
+                renders in full on /technology. */}
+            {technologies
+              .filter((tech) => tech.featuredOnHome)
+              .map((tech, i) => (
+                <TechnologyCard key={tech.name} tech={tech} index={i} />
+              ))}
           </div>
         </div>
       </section>

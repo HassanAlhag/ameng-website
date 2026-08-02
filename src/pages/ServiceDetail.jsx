@@ -1,5 +1,6 @@
+import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, ChevronDown } from "lucide-react";
 import PageHero from "../components/ui/PageHero";
 import SectionHeading from "../components/ui/SectionHeading";
 import CTASection from "../components/sections/CTASection";
@@ -7,6 +8,56 @@ import Icon from "../lib/icons";
 import { getServiceBySlug, services } from "../data/services";
 import { getSectorBySlug } from "../data/sectors";
 import NotFound from "./NotFound";
+
+// ============================================================
+// RelatedServicesAccordion
+// Sidebar accordion for service.otherServices — populated on any
+// service with genuine specialized sub-services (heading comes from
+// service.otherServicesTitle, e.g. "Specialized Survey Services").
+// One item open at a time; clicking the open item collapses it.
+// Backward-compatible with plain-string entries (no description
+// body in that case).
+// ============================================================
+function RelatedServicesAccordion({ items }) {
+  const [openIndex, setOpenIndex] = useState(0);
+
+  return (
+    <div className="flex flex-col divide-y divide-white/10">
+      {items.map((item, i) => {
+        const title = typeof item === "string" ? item : item.title;
+        const description = typeof item === "string" ? null : item.description;
+        const isOpen = openIndex === i;
+        return (
+          <div key={title}>
+            <button
+              type="button"
+              onClick={() => setOpenIndex(isOpen ? null : i)}
+              aria-expanded={isOpen}
+              className="flex w-full items-center justify-between gap-3 py-3 text-left text-[13.5px] font-semibold text-white transition-colors hover:text-orange"
+            >
+              <span>{title}</span>
+              <ChevronDown
+                className={`h-4 w-4 shrink-0 text-orange transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+                strokeWidth={2}
+              />
+            </button>
+            <div
+              className={`grid transition-all duration-200 ease-in-out ${
+                isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+              }`}
+            >
+              <div className="overflow-hidden">
+                {description && (
+                  <p className="pb-4 text-[12.5px] leading-relaxed text-haze">{description}</p>
+                )}
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
 
 // ============================================================
 // SERVICE DETAIL PAGE — /services/:slug
@@ -37,6 +88,15 @@ export default function ServiceDetail() {
       <section className="border-t border-white/5 bg-ink-900 py-20 sm:py-24">
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-14 px-6 lg:grid-cols-[1.6fr_1fr] lg:px-8">
           <div>
+            {service.scopeIntroduction && (
+              <div className="mb-12 flex max-w-2xl flex-col gap-4">
+                {service.scopeIntroduction.map((paragraph) => (
+                  <p key={paragraph} className="text-[15.5px] leading-relaxed text-haze">
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
+            )}
             <SectionHeading eyebrow="Scope & deliverables" title="What this service covers." />
             <ul className="mt-8 flex flex-col gap-4">
               {service.scope.map((item) => (
@@ -60,23 +120,21 @@ export default function ServiceDetail() {
                 </ul>
               </div>
             )}
+          </div>
 
-            {service.otherServices && (
-              <div className="mt-12">
-                <h3 className="text-white">Related survey services</h3>
-                <div className="mt-5 flex flex-wrap gap-2">
-                  {service.otherServices.map((s) => (
-                    <span key={s} className="rounded-full border border-white/15 px-3 py-1.5 text-[12.5px] text-haze">
-                      {s}
-                    </span>
-                  ))}
+          {/* Sidebar — sticky as one block on desktop; normal flow on mobile/tablet */}
+          <aside className="flex flex-col gap-6 lg:sticky lg:top-24 lg:self-start">
+            {service.otherServices && service.otherServices.length > 0 && (
+              <div className="rounded-[10px] border border-white/10 bg-white/[0.03] p-6">
+                <h3 className="text-[14px] font-bold uppercase tracking-wide text-white">
+                  {service.otherServicesTitle || "Specialized Services"}
+                </h3>
+                <div className="mt-2">
+                  <RelatedServicesAccordion items={service.otherServices} />
                 </div>
               </div>
             )}
-          </div>
 
-          {/* Sidebar */}
-          <aside className="flex flex-col gap-6">
             {service.standards && (
               <div className="rounded-[10px] border border-orange/25 bg-orange/5 p-6">
                 <h3 className="text-[14px] font-bold uppercase tracking-wide text-white">Standards</h3>
@@ -94,9 +152,21 @@ export default function ServiceDetail() {
               <div className="rounded-[10px] border border-white/10 bg-white/[0.03] p-6">
                 <h3 className="text-[14px] font-bold uppercase tracking-wide text-white">Technology used</h3>
                 <ul className="mt-4 flex flex-col gap-2">
-                  {service.technology.map((t) => (
-                    <li key={t} className="text-[13.5px] text-haze">{t}</li>
-                  ))}
+                  {service.technology.map((t) => {
+                    const label = typeof t === "string" ? t : t.label;
+                    const techSlug = typeof t === "string" ? null : t.slug;
+                    return (
+                      <li key={label}>
+                        {techSlug ? (
+                          <Link to={`/technology/${techSlug}`} className="text-[13.5px] text-haze hover:text-orange">
+                            {label}
+                          </Link>
+                        ) : (
+                          <span className="text-[13.5px] text-haze">{label}</span>
+                        )}
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             )}
