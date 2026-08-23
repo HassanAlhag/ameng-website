@@ -31,18 +31,12 @@ import { featuredProjects } from "../data/projects";
 // Every repeated card grid below maps over a data file — nothing
 // here is a hand-duplicated card. Edit src/data/*.js to change
 // homepage content.
-//
-// heroVariant: "contained" (default, production hero) | "background"
-// (full-bleed video hero) | "backgroundEnhanced" (refined full-bleed
-// hero). Temporary review routes /home1, /home2 and /home3 render
-// this same page with each variant so they can be compared side by
-// side without duplicating sections 3–10. See App.jsx.
 // ============================================================
-export default function Home({ heroVariant = "contained" }) {
+export default function Home() {
   return (
     <>
       {/* ============ 2. HERO ============ */}
-      <HomeHero variant={heroVariant} />
+      <HomeHero />
 
       {/* ============ 3. TECHNOLOGY / INTELLIGENCE ============ */}
       <section className="border-t border-white/5 bg-ink-900 py-20 sm:py-24">
@@ -127,7 +121,7 @@ export default function Home({ heroVariant = "contained" }) {
                 <CTAButton to="/services" variant="primary">View All Services</CTAButton>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
               {industries.map((industry) => (
                 <IndustryCard key={industry.name} industry={industry} />
               ))}

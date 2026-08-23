@@ -77,7 +77,7 @@ export const services = [
       { label: "Robotic total stations", slug: "robotic-total-stations" },
       { label: "UAV photogrammetry", slug: "uav-lidar" },
     ],
-    sectors: ["municipal-infrastructure", "transportation", "land-development", "utilities"],
+    sectors: ["municipal-infrastructure", "transportation", "land-development", "utilities", "construction"],
   },
   {
     slug: "geomatics-gis",
@@ -127,7 +127,7 @@ export const services = [
       { label: "Esri ArcGIS, QGIS", slug: "gis-spatial-analysis" },
       { label: "Scan-to-BIM workflows", slug: "bim-digital-twins" },
     ],
-    sectors: ["municipal-infrastructure", "industrial-facilities", "land-development", "utilities"],
+    sectors: ["municipal-infrastructure", "industrial-facilities", "land-development", "utilities", "construction"],
   },
   {
     slug: "uav-surveying",
@@ -181,7 +181,7 @@ export const services = [
       { label: "360° reality capture", slug: "thermal-imaging-reality-capture" },
       { label: "Thermal imaging", slug: "thermal-imaging-reality-capture" },
     ],
-    sectors: ["transportation", "energy", "land-development", "airports"],
+    sectors: ["transportation", "energy", "land-development", "airports", "construction"],
   },
   {
     slug: "subsurface-utility-engineering",
@@ -204,7 +204,7 @@ export const services = [
       "Electromagnetic (EM) locators",
       "Vacuum excavation",
     ],
-    sectors: ["municipal-infrastructure", "utilities", "transportation", "energy"],
+    sectors: ["municipal-infrastructure", "utilities", "transportation", "energy", "construction"],
   },
   {
     slug: "utility-mapping-gpr",
@@ -227,12 +227,13 @@ export const services = [
       "Environmental & Geological Assessment — underground storage tanks, landfill limits, soil anomalies",
       "Archaeology & Void Detection — unmarked burial sites, buried foundations, structural voids and sinkholes",
     ],
+    standards: ["ASCE 38-22", "CSA S250:20 (R2025)"],
     technology: [
       { label: "Multi-frequency GPR arrays", slug: "ground-penetrating-radar" },
       { label: "3D data processing", slug: "point-cloud-processing" },
       { label: "CAD / GIS / BIM export", slug: "gis-spatial-analysis" },
     ],
-    sectors: ["municipal-infrastructure", "utilities", "energy", "telecommunications"],
+    sectors: ["municipal-infrastructure", "utilities", "energy", "telecommunications", "construction"],
   },
   {
     slug: "ql-a-daylighting",
@@ -256,7 +257,7 @@ export const services = [
       "Air vacuum excavation",
       { label: "Survey-grade GNSS confirmation", slug: "gnss-rtk-surveying" },
     ],
-    sectors: ["municipal-infrastructure", "transportation", "utilities", "land-development"],
+    sectors: ["municipal-infrastructure", "transportation", "utilities", "land-development", "construction"],
   },
   {
     slug: "cctv-sewer-inspection",
@@ -304,7 +305,7 @@ export const services = [
       { label: "Ground Penetrating Radar", slug: "ground-penetrating-radar" },
       "Diamond coring equipment",
     ],
-    sectors: ["industrial-facilities", "transportation", "land-development", "airports"],
+    sectors: ["industrial-facilities", "transportation", "land-development", "airports", "construction"],
   },
 ];
 

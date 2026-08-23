@@ -5,7 +5,7 @@ import { sectors } from "../data/sectors";
 
 // ============================================================
 // SECTORS OVERVIEW PAGE
-// Grid of all 10 sectors, mapped from src/data/sectors.js.
+// Grid of all 11 sectors, mapped from src/data/sectors.js.
 // ============================================================
 export default function Sectors() {
   return (
@@ -13,7 +13,7 @@ export default function Sectors() {
       <PageHero
         eyebrow="Sectors"
         title="Built for complex infrastructure environments."
-        description="AMEng supports municipal infrastructure, transportation, water and wastewater, utilities, energy, telecommunications, industrial facilities, airports, transit and land development projects."
+        description="AMEng supports municipal infrastructure, transportation, water and wastewater, utilities, energy, telecommunications, industrial facilities, airports, transit, land development and construction projects."
         breadcrumb={[{ label: "Sectors" }]}
       />
 

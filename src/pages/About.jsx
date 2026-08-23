@@ -53,7 +53,7 @@ export default function About() {
                 just a goal — it is our standard.
               </p>
               <div className="mt-8 flex flex-wrap gap-2">
-                {["Municipal Infrastructure", "Transportation", "Water & Wastewater", "Utilities", "Energy", "Telecommunications", "Industrial Facilities", "Airports", "Transit", "Land Development"].map((m) => (
+                {["Municipal Infrastructure", "Transportation", "Water & Wastewater", "Utilities", "Energy", "Telecommunications", "Industrial Facilities", "Airports", "Transit", "Land Development", "Construction"].map((m) => (
                   <span key={m} className="rounded-full border border-white/15 px-3 py-1 text-[12px] font-medium text-haze">
                     {m}
                   </span>
@@ -62,7 +62,7 @@ export default function About() {
             </div>
             <div className="grid grid-cols-2 gap-4">
               <StatCard value="30" label="Years of infrastructure & field experience" />
-              <StatCard value="10" label="Core markets served across North America" />
+              <StatCard value="11" label="Core markets served across North America" />
               <StatCard value="8" label="Integrated geospatial & subsurface services" />
               <StatCard value="QL-A" label="Highest tier of subsurface verification" />
             </div>

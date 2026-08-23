@@ -41,17 +41,6 @@ export default function App() {
       <main id="main-content" className="flex-1">
         <Routes>
           <Route path="/" element={<Home />} />
-          {/* Temporary homepage hero review routes — not linked in navigation.
-              /home1 = current production hero (contained video panel).
-              /home2 = full-background video hero, unchanged.
-              /home3 = refined full-background hero (glass capability panel,
-              unified stat strip, layered contrast) for side-by-side
-              comparison against /home2. All three render the exact same
-              Home page/content, differing only in heroVariant. Remove
-              once the comparison is finished. */}
-          <Route path="/home1" element={<Home heroVariant="contained" />} />
-          <Route path="/home2" element={<Home heroVariant="background" />} />
-          <Route path="/home3" element={<Home heroVariant="backgroundEnhanced" />} />
           <Route path="/about" element={<About />} />
           <Route path="/services" element={<Services />} />
           <Route path="/services/:slug" element={<ServiceDetail />} />

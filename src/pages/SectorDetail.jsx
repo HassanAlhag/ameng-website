@@ -9,7 +9,7 @@ import NotFound from "./NotFound";
 
 // ============================================================
 // SECTOR DETAIL PAGE — /sectors/:slug
-// One template renders all 10 sectors from src/data/sectors.js,
+// One template renders all 11 sectors from src/data/sectors.js,
 // cross-linking to the specific services relevant to that sector.
 // ============================================================
 export default function SectorDetail() {

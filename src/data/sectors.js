@@ -87,6 +87,22 @@ export const sectors = [
       "Boundary, topographic and construction layout surveys that give developers a reliable foundation from site plan to build-out.",
     services: ["surveying-services", "geomatics-gis", "ql-a-daylighting"],
   },
+  {
+    slug: "construction",
+    icon: "HardHat",
+    name: "Construction",
+    summary:
+      "Survey, subsurface utility, GIS/BIM and concrete scanning data that gives contractors verified site conditions before excavation, layout and build-out begin.",
+    services: [
+      "surveying-services",
+      "geomatics-gis",
+      "uav-surveying",
+      "subsurface-utility-engineering",
+      "utility-mapping-gpr",
+      "ql-a-daylighting",
+      "concrete-scanning-imaging-coring",
+    ],
+  },
 ];
 
 export const getSectorBySlug = (slug) => sectors.find((s) => s.slug === slug);

@@ -18,8 +18,8 @@ function shouldAutoplay() {
 // scroll-based pause/resume, real event-driven play/pause state,
 // accessibility affordances — for BOTH homepage hero presentations,
 // so that behavior can never drift between them:
-//   variant="contained"  — bounded, bordered panel (used on /, /home1)
-//   variant="background" — full-bleed section background (used on /home2)
+//   variant="contained"  — bounded, bordered panel
+//   variant="background" — full-bleed section background (used on /)
 // Only layout/positioning classes branch on `variant`; the refs,
 // effects and toggle logic below are shared and identical either way.
 //
