@@ -31,7 +31,7 @@ export const technologies = [
     slug: "gnss-rtk-surveying",
     icon: "Satellite",
     name: "GNSS / RTK Surveying",
-    image: "/images/technology/gnss-rtk-surveying.jpg",
+    image: "/images/roadway-layout-marking.png",
     featuredOnHome: true,
     summary: "Sub-centimetre positioning from multi-constellation receivers.",
     description:
@@ -96,7 +96,7 @@ export const technologies = [
     slug: "gis-spatial-analysis",
     icon: "Layers",
     name: "GIS & Spatial Analysis",
-    image: "/images/technology/gis-spatial-analysis.png",
+    image: "/images/geomatics-site-review.jpg",
     featuredOnHome: true,
     summary: "ArcGIS and QGIS workflows with web-based GIS deliverables.",
     description:
@@ -201,6 +201,7 @@ export const technologies = [
     slug: "robotic-total-stations",
     icon: "Crosshair",
     name: "Robotic Total Stations",
+    image: "/images/technology/robotic-total-station.png",
     summary: "Automated, self-tracking instruments for continuous layout and monitoring.",
     description:
       "Robotic total stations track a prism automatically, allowing a single operator to run continuous, high-precision positioning for construction layout, structural monitoring and progress tracking — improving repeatable accuracy while reducing crew size and time on site.",
@@ -220,6 +221,7 @@ export const technologies = [
     slug: "slam-mobile-mapping",
     icon: "MapPinned",
     name: "SLAM & Mobile Mapping",
+    image: "/images/technology/slam-mobile-mapping.png",
     summary: "GPS-independent 3D capture for fast, in-motion mobile mapping.",
     description:
       "SLAM (Simultaneous Localization and Mapping) enables mobile scanners to capture dense, georeferenced 3D point clouds while moving through an environment — including indoor spaces, dense vegetation and other areas where GNSS signals are weak or unavailable.",
@@ -239,6 +241,7 @@ export const technologies = [
     slug: "thermal-imaging-reality-capture",
     icon: "Thermometer",
     name: "Thermal Imaging & Reality Capture",
+    image: "/images/technology/thermal-imaging.png",
     summary: "Thermal and 360-degree imaging for non-invasive inspection.",
     description:
       "Thermal imaging identifies temperature anomalies in structures, utilities and equipment, while 360-degree reality capture produces immersive, navigable records of site conditions — together supporting safer, faster and more complete asset inspections.",
@@ -258,6 +261,7 @@ export const technologies = [
     slug: "ai-assisted-data-processing",
     icon: "Sparkles",
     name: "AI-Assisted Data Processing",
+    image: "/images/technology/ai-assisted-data-processing.png",
     summary: "Machine-learning-driven processing for faster, more consistent data.",
     description:
       "AI-assisted processing accelerates photogrammetry, point cloud classification and inspection image analytics — automating feature extraction and defect detection to shorten turnaround time and improve consistency across large datasets.",
@@ -277,6 +281,7 @@ export const technologies = [
     slug: "iot-connected-field-monitoring",
     icon: "Radio",
     name: "IoT & Connected Field Monitoring",
+    image: "/images/technology/iot-field-monitoring.png",
     summary: "Connected sensors and dashboards for real-time site monitoring.",
     description:
       "IoT sensors and cloud-based dashboards provide continuous, real-time monitoring of construction progress, structural movement and site conditions — connecting field data directly to project teams for faster, better-informed decisions.",

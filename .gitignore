@@ -15,9 +15,16 @@ dist/
 # Old downloaded website image dump
 agc-images/
 
+# Construction source/reference images
+construction-images/
+
+# Additional source/reference images
+New Pictures - Resized/
+
 # Optional client reference files
 *.docx
 *.pdf
 *.xlsx
 New Updates/
 AMEng-Website-Evaluation.md
+

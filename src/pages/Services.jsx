@@ -1,4 +1,5 @@
 import PageHero from "../components/ui/PageHero";
+import HeroVideoPanel from "../components/sections/HeroVideoPanel";
 import SectionHeading from "../components/ui/SectionHeading";
 import ServiceCard from "../components/cards/ServiceCard";
 import CTASection from "../components/sections/CTASection";
@@ -17,6 +18,7 @@ export default function Services() {
         title="Eight integrated services. One infrastructure intelligence partner."
         description="Surveying | Geomatics | UAV Services | SUE | Utility Mapping | QL-A Daylighting | CCTV Sewer Inspection | Concrete Scanning, Imaging & Coring."
         breadcrumb={[{ label: "Services" }]}
+        media={<HeroVideoPanel />}
       />
 
       <section className="border-t border-white/5 bg-ink-900 py-20 sm:py-24">

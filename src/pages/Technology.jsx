@@ -1,5 +1,6 @@
 import { TrendingUp, Radio, Video, Box, Sparkles, CloudCog } from "lucide-react";
 import PageHero from "../components/ui/PageHero";
+import HeroVideoPanel from "../components/sections/HeroVideoPanel";
 import SectionHeading from "../components/ui/SectionHeading";
 import TechnologyCard from "../components/cards/TechnologyCard";
 import CTASection from "../components/sections/CTASection";
@@ -27,6 +28,7 @@ export default function Technology() {
         title="Innovation drives our engineering. Technology secures our people."
         description="We replace reactive safety methods with an intelligent, tech-forward ecosystem — GNSS, total stations, GPR, UAV, LiDAR, GIS, CCTV and cloud data working together to predict hazards and protect field teams in real time."
         breadcrumb={[{ label: "Technology" }]}
+        media={<HeroVideoPanel />}
       />
 
       <section className="border-t border-white/5 bg-ink-900 py-20 sm:py-24">

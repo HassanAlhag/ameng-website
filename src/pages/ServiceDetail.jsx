@@ -83,6 +83,8 @@ export default function ServiceDetail() {
         description={service.heroStatement}
         breadcrumb={[{ label: "Services", path: "/services" }, { label: service.name }]}
         cta={{ to: "/contact", label: "Request a Consultation" }}
+        image={service.image}
+        imageAlt={service.name}
       />
 
       <section className="border-t border-white/5 bg-ink-900 py-20 sm:py-24">

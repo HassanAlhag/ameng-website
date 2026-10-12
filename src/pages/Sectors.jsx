@@ -1,4 +1,5 @@
 import PageHero from "../components/ui/PageHero";
+import HeroVideoPanel from "../components/sections/HeroVideoPanel";
 import SectorCard from "../components/cards/SectorCard";
 import CTASection from "../components/sections/CTASection";
 import { sectors } from "../data/sectors";
@@ -15,6 +16,7 @@ export default function Sectors() {
         title="Built for complex infrastructure environments."
         description="AMEng supports municipal infrastructure, transportation, water and wastewater, utilities, energy, telecommunications, industrial facilities, airports, transit, land development and construction projects."
         breadcrumb={[{ label: "Sectors" }]}
+        media={<HeroVideoPanel />}
       />
 
       <section className="border-t border-white/5 bg-ink-900 py-20 sm:py-24">

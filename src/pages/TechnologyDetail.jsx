@@ -33,6 +33,8 @@ export default function TechnologyDetail() {
         description={tech.description || tech.summary}
         breadcrumb={[{ label: "Technology", path: "/technology" }, { label: tech.name }]}
         cta={{ to: "/contact", label: "Request a Technical Review" }}
+        image={tech.image}
+        imageAlt={tech.name}
       />
 
       <section className="border-t border-white/5 bg-ink-900 py-20 sm:py-24">

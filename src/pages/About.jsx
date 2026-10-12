@@ -1,5 +1,6 @@
 import { Target, Eye, Award, ShieldCheck, Scale, Users, Sparkles } from "lucide-react";
 import PageHero from "../components/ui/PageHero";
+import HeroVideoPanel from "../components/sections/HeroVideoPanel";
 import SectionHeading from "../components/ui/SectionHeading";
 import StatCard from "../components/ui/StatCard";
 import CTASection from "../components/sections/CTASection";
@@ -28,6 +29,7 @@ export default function About() {
         title="Nearly 30 years turning field data into infrastructure certainty."
         description="AMEng is a multidisciplinary infrastructure services company delivering geospatial, utility engineering, underground infrastructure assessment and asset intelligence solutions across North America."
         breadcrumb={[{ label: "About" }]}
+        media={<HeroVideoPanel />}
       />
 
       {/* Company overview */}

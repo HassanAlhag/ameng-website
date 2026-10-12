@@ -91,6 +91,26 @@ export const sectors = [
     slug: "construction",
     icon: "HardHat",
     name: "Construction",
+    // Construction-only extras (rendered by SectorDetail when present):
+    // heroImages → ImageSlider in the hero; intro + introImage → the
+    // two-column section directly below the hero.
+    heroImages: [
+      { src: "/images/sectors/construction/concrete-cutting-crew.jpg", alt: "AMEng crew with a concrete saw and equipment trailer on site", position: "50% 35%" },
+      { src: "/images/sectors/construction/gnss-survey-roadway.jpg", alt: "GNSS rover set up over a marked control point beside a roadway work zone", position: "50% 40%" },
+      { src: "/images/sectors/construction/saw-cut-excavation.jpg", alt: "Saw-cut excavation opened in a concrete slab", position: "50% 50%" },
+      { src: "/images/sectors/construction/concrete-pour-site.jpg", alt: "Freshly placed concrete slab with crew and concrete truck behind", position: "50% 20%" },
+      { src: "/images/sectors/construction/boom-lift-building.jpg", alt: "Boom lift positioned beside a commercial building", position: "50% 62%" },
+      { src: "/images/sectors/construction/pavement-removal-site.jpg", alt: "Pavement removal strip at a commercial loading dock with crew on site", position: "50% 40%" },
+      { src: "/images/sectors/construction/concrete-core-drilling.jpg", alt: "Technician core drilling through a concrete wall", position: "50% 45%" },
+      { src: "/images/sectors/construction/concrete-rebar-repair.jpg", alt: "Broken-out concrete slab exposing reinforcing steel", position: "50% 50%" },
+    ],
+    intro:
+      "At AMENG, we recognize that successful infrastructure delivery begins with accurate field information and continues through effective coordination and quality execution. Our integrated approach connects surveying, underground utility intelligence, and construction support to help clients make better decisions, manage risks, and deliver projects with confidence.",
+    introImage: {
+      src: "/images/sectors/construction/survey-control-point.jpg",
+      alt: "Survey tripod over a marked utility locate point beside construction barrels",
+      position: "50% 55%",
+    },
     summary:
       "Survey, subsurface utility, GIS/BIM and concrete scanning data that gives contractors verified site conditions before excavation, layout and build-out begin.",
     services: [
